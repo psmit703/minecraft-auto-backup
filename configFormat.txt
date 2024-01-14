@@ -1,0 +1,9 @@
+mcDir
+backupDir
+backupSaves
+backupMods
+backupSchems
+backupScreenshots
+backupLogs
+backupResourcePacks
+deleteOldBackupsThirtyDays

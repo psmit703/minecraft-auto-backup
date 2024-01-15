@@ -12,7 +12,7 @@ It is recommended to use Windows Task Scheduler to automatically run this progra
 
 To manually run this program, open File Explorer and either double click the program or right click it and either select "Open" or "Open with -> Python {version}." As long as Python is installed, (and as long as the option has not been changed) Python should be the default option for double-clicking or selecting "Open." Any requried directory permissions are the responsibility of the user.
 
-The program copies files in the Minecraft directory based on what is selected in config.txt (see "Requirements / Config.txt") and pastes them in a directory specified in config.txt. This file, config.txt, allows the user to specify what specific data to back up, whether to automatically delete backups older than thirty days, and whether to display a dialog box upon completion.
+The program copies files in the Minecraft directory based on what is selected in config.txt (see "Requirements / Config.txt") and pastes them in a directory specified in config.txt. This file, config.txt, allows the user to specify what specific data to back up, whether to automatically delete backups older than fourteen days, and whether to display a dialog box upon completion.
 
 ## Requirements
 
@@ -69,9 +69,9 @@ backupScreenshots
 backupLogs
 backupResourcePacks
 
-#### deleteOldBackupsThirtyDays
+#### deleteOldBackupsFourteenDays
 
-Like with lines 3 through 8, this should be either <code>True</code> or <code>False</code>. This option determines whether or not to delete backups older than thirty days.
+Like with lines 3 through 8, this should be either <code>True</code> or <code>False</code>. This option determines whether or not to delete backups older than fourteen days.
 
 #### tkinter
 

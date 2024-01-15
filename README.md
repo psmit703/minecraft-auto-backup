@@ -12,7 +12,9 @@ It is recommended to use Windows Task Scheduler to automatically run this progra
 
 To manually run this program, open File Explorer and either double click the program or right click it and either select "Open" or "Open with -> Python {version}." As long as Python is installed, (and as long as the option has not been changed) Python should be the default option for double-clicking or selecting "Open." Any requried directory permissions are the responsibility of the user.
 
-The program copies files in the Minecraft directory based on what is selected in config.txt (see "Requirements / Config.txt") and pastes them in a directory specified in config.txt. This file, config.txt, allows the user to specify what specific data to back up, whether to automatically delete backups older than fourteen days, and whether to display a dialog box upon completion.
+The program copies files in the Minecraft directory based on what is selected in config.txt (see "Requirements / Config.txt") and pastes them in a directory specified in config.txt. This file, config.txt, allows the user to specify what specific data to back up, whether to automatically delete old backups, and whether to display a dialog box upon completion.
+
+It should be noted that any old backups that are eligible for deletion are deleted after the newest backup is created. This should be kept in mind when using this program on systems with limited storage. Additionally, the newest backup counts toward the total number of backups for automatic deletion purposes.
 
 ## Requirements
 
@@ -69,13 +71,29 @@ backupScreenshots
 backupLogs
 backupResourcePacks
 
-#### deleteOldBackupsFourteenDays
+#### deleteOldBackups
 
-Like with lines 3 through 8, this should be either <code>True</code> or <code>False</code>. This option determines whether or not to delete backups older than fourteen days.
+Like with lines 3 through 8, this should be either <code>True</code> or <code>False</code>. This option determines whether or not to delete old backups. Backups older than x days, where x is specified in numDaysForDeletion, will be deleted automatically if this option is set to <code>True</code>.
 
 #### tkinter
 
 Like with lines 3 through 8, this should be either <code>True</code> or <code>False</code>. This option determines whether or not the program will display a tkinter system dialog box upon completion.
+
+#### numDaysForDeletion
+
+This specifies the number of days before a backup is considered old enough to be deleted. See deleteOldBackups for further details.
+
+#### minBackupsForDeletion
+
+This specifies the minimum number of backups before old backups will be automatically deleted. This setting overrides numDaysForDeletion; if a backup is older than x specified in numDaysForDeletion but there are not yet y specified minBackupsForDeletion, none will be deleted. To ignore this setting, set it to <code>-1</code>. Overlaps with maxBackupsForDeletion are undefined, simply because I have not tested that case. Similarly, I have not tested what happens if this is set to <code>0</code>.
+
+This setting will be ignored if deleteOldBackups is set to <code>False</code>.
+
+#### maxBackups forDeletion
+
+This specifies the maximum number of backups that may exist at any given time. This setting overrides numDaysForDeletion; if a backup is younger than x specified in numDaysForDeletion but there are more than y specified maxBackupsForDeletion, the oldest backup will be recursively deleted until the number of backups, including the newest backup, is equal to y. To ignore this setting, set it to <code>-1</code>. Overlaps with minBackupsForDeletion are undefined, simply because I have not tested that case. Similarly, I have not tested what happens if this is set to <code>0</code>.
+
+This setting will be ignored if deleteOldBackups is set to <code>False</code>.
 
 ### Windows
 

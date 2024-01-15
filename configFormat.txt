@@ -6,6 +6,9 @@ backupSchems
 backupScreenshots
 backupLogs
 backupResourcePacks
-deleteOldBackupsFourteenDays
+deleteOldBackups
 tkinter
+numDaysForDeletion
+minBackupsForDeletion
+maxBackupsForDeletion
 (empty line)

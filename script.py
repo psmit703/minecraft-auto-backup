@@ -28,6 +28,9 @@ backupLogs = configs[6][0:-1]
 backupResourcePacks = configs[7][0:-1]
 deleteOldBackups = configs[8][0:-1]
 showGUI = configs[9][0:-1]
+numDaysAutoDelete = configs[10][0:-1]
+minBackupsForDeletion = configs[11][0:-1]
+maxBackupsForDeletion = configs[12][0:-1]
 
 hasBackedUp = False
 hasDeleted = False
@@ -132,29 +135,50 @@ if backupResourcePacks == "True":
 if hasBackedUp:
     print("Backup complete")
 
+
 # Delete old backups, skip if false
-# Deletes all subfolders of logs, mods, resourcepacks, saves, schematics, screenshots that are older than 14 days
+# Deletes all subfolders of logs, mods, resourcepacks, saves, schematics, screenshots that are older than numDaysAutoDelete days
 if deleteOldBackups == "True":
     for folder in os.listdir(backupDir):
-        if os.path.isdir(backupDir + folder):
+        if os.path.isdir(backupDir + folder) and (len(os.listdir(backupDir + folder)) >= int(minBackupsForDeletion)
+                                                  or int(minBackupsForDeletion) == -1):
             for subfolder in os.listdir(backupDir + folder):
                 if os.path.isdir(backupDir + folder + "\\" + subfolder):
-                    if (datetime.now() - datetime.strptime(subfolder, "%Y-%m-%d_%H-%M-%S")).days > 14:
+                    if (datetime.now() - datetime.strptime(subfolder, "%Y-%m-%d_%H-%M-%S")).days > int(numDaysAutoDelete):
                         try:
                             shutil.rmtree(backupDir + folder +
                                           "\\" + subfolder)
                         except Exception as e:
                             print("Failed to delete " + folder +
-                                  " backups older than 14 days")
+                                  " backups older than %s days" % numDaysAutoDelete)
                             print(e)
                         else:
                             print("Successfully deleted " + folder +
-                                  " backups older than 14 days")
+                                  " backups older than %s days" % numDaysAutoDelete)
                             hasDeleted = True
 
-    # if no backups were deleted, do not print that all backups older than 14 days were deleted
+    for folder in os.listdir(backupDir):
+        if os.path.isdir(backupDir + folder) and len(os.listdir(backupDir + folder)) > int(maxBackupsForDeletion) and int(maxBackupsForDeletion) != -1:
+            # sort subfolders by date, oldest first
+            subfolders = os.listdir(backupDir + folder)
+            subfolders.sort(key=lambda x: datetime.strptime(
+                x, "%Y-%m-%d_%H-%M-%S"))
+
+            while len(subfolders) > int(maxBackupsForDeletion):
+                try:
+                    shutil.rmtree(backupDir + folder + "\\" + subfolders[0])
+                except Exception as e:
+                    print("Failed to delete " + folder +
+                          " backups older than %s days" % numDaysAutoDelete)
+                    print(e)
+
+                subfolders.pop(0)
+
+                hasDeleted = True
+
+    # if no backups were deleted, do not print that all backups older than numDaysAutoDelete days were deleted
     if hasDeleted:
-        print("All backups older than 14 days deleted")
+        print("All backups older than %s days deleted" % numDaysAutoDelete)
 
 # display GUI if selected
 if showGUI == "True":
@@ -164,16 +188,16 @@ if showGUI == "True":
     if hasBackedUp:
         if hasDeleted:
             tk.messagebox.showinfo(
-                "Success", "Minecraft backup complete\nAll Minecraft backups older than 14 days deleted")
+                "Success", "Minecraft backup complete\nAll Minecraft backups older than %s days deleted" % numDaysAutoDelete)
         else:
             tk.messagebox.showinfo(
-                "Success", "Minecraft backup complete\nNo Minecraft backups older than 14 days to delete")
+                "Success", "Minecraft backup complete\nNo Minecraft backups older than %s days to delete" % numDaysAutoDelete)
     else:
         if hasDeleted:
             tk.messagebox.showinfo(
-                "Success", "No Minecraft backups to create\nAll Minecraft backups older than 14 days deleted")
+                "Success", "No Minecraft backups to create\nAll Minecraft backups older than %s days deleted" % numDaysAutoDelete)
         else:
             tk.messagebox.showinfo(
-                "Success", "No Minecraft backups to create\nNo Minecraft backups older than 14 days to delete")
+                "Success", "No Minecraft backups to create\nNo Minecraft backups older than %s days to delete" % numDaysAutoDelete)
 
 print("Done!")

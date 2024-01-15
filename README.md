@@ -6,6 +6,8 @@ This program has not been tested with Minecraft (Bedrock Edition). I am not fami
 
 ## Usage
 
+Firstly, download the file listed at <code>https://github.com/psmit703/minecraft-auto-backup/blob/main/script.py</code>.
+
 It is recommended to use Windows Task Scheduler to automatically run this program. This can be done once daily, at some other interval, or based on some action.
 
 To manually run this program, open File Explorer and either double click the program or right click it and either select "Open" or "Open with -> Python {version}." As long as Python is installed, (and as long as the option has not been changed) Python should be the default option for double-clicking or selecting "Open." Any requried directory permissions are the responsibility of the user.

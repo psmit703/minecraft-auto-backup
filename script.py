@@ -8,7 +8,14 @@ from tkinter import filedialog
 deviceName = socket.gethostname()
 date = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-configs = open("config.txt", "r")
+try:
+    scriptPath = os.path.dirname(__file__)
+    configs = open(scriptPath + "\config.txt", "r")
+except Exception as e:
+    print("Failed to open config.txt")
+    print(e)
+    raise SystemExit
+
 configs = configs.readlines()
 
 mcDir = configs[0][0:-1]
@@ -20,6 +27,7 @@ backupScreenshots = configs[5][0:-1]
 backupLogs = configs[6][0:-1]
 backupResourcePacks = configs[7][0:-1]
 deleteOldBackups = configs[8][0:-1]
+showGUI = configs[9][0:-1]
 
 hasBackedUp = False
 hasDeleted = False
@@ -147,5 +155,25 @@ if deleteOldBackups == "True":
     # if no backups were deleted, do not print that all backups older than 30 days were deleted
     if hasDeleted:
         print("All backups older than 30 days deleted")
+
+# display GUI if selected
+if showGUI == "True":
+    root = tk.Tk()
+    root.withdraw()
+
+    if hasBackedUp:
+        if hasDeleted:
+            tk.messagebox.showinfo(
+                "Success", "Minecraft backup complete\nAll Minecraft backups older than 30 days deleted")
+        else:
+            tk.messagebox.showinfo(
+                "Success", "Minecraft backup complete\nNo Minecraft backups older than 30 days to delete")
+    else:
+        if hasDeleted:
+            tk.messagebox.showinfo(
+                "Success", "No Minecraft backups to create\nAll Minecraft backups older than 30 days deleted")
+        else:
+            tk.messagebox.showinfo(
+                "Success", "No Minecraft backups to create\nNo Minecraft backups older than 30 days to delete")
 
 print("Done!")

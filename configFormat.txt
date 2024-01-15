@@ -6,6 +6,6 @@ backupSchems
 backupScreenshots
 backupLogs
 backupResourcePacks
-deleteOldBackupsThirtyDays
+deleteOldBackupsFourteenDays
 tkinter
 (empty line)

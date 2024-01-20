@@ -6,6 +6,7 @@ backupSchems
 backupScreenshots
 backupLogs
 backupResourcePacks
+backupServerList
 deleteOldBackups
 tkinter
 numDaysForDeletion

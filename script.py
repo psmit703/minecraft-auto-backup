@@ -26,11 +26,12 @@ backupSchems = configs[4][0:-1]
 backupScreenshots = configs[5][0:-1]
 backupLogs = configs[6][0:-1]
 backupResourcePacks = configs[7][0:-1]
-deleteOldBackups = configs[8][0:-1]
-showGUI = configs[9][0:-1]
-numDaysAutoDelete = configs[10][0:-1]
-minBackupsForDeletion = configs[11][0:-1]
-maxBackupsForDeletion = configs[12][0:-1]
+backupServerList = configs[8][0:-1]
+deleteOldBackups = configs[9][0:-1]
+showGUI = configs[10][0:-1]
+numDaysAutoDelete = configs[11][0:-1]
+minBackupsForDeletion = configs[12][0:-1]
+maxBackupsForDeletion = configs[13][0:-1]
 
 hasBackedUp = False
 hasDeleted = False
@@ -43,6 +44,21 @@ if os.path.exists(backupDir + "minecraft-backups" + "\\" + deviceName) is not Tr
     os.mkdir(backupDir + "minecraft-backups" + "\\" + deviceName)
 
 backupDir = backupDir + "minecraft-backups" + "\\" + deviceName + "\\"
+
+# Backup server list, skip if false
+if backupServerList == "True":
+    # skip if server list file (servers.dat) doesn't exist
+    if os.path.exists(mcDir + "servers.dat"):
+        try:
+            os.makedirs(backupDir + "server-list" + "\\" + date)
+            shutil.copy(mcDir + "servers.dat", backupDir +
+                        "server-list" + "\\" + date + "\\" + "servers.dat")
+        except Exception as e:
+            print("Failed to backup server list")
+            print(e)
+        else:
+            print("Successfully backed up server list")
+            hasBackedUp = True
 
 # Backup saves, skip if false
 if backupSaves == "True":
@@ -178,7 +194,8 @@ if deleteOldBackups == "True":
 
     # if no backups were deleted, do not print that all backups older than numDaysAutoDelete days were deleted
     if hasDeleted:
-        print("All backups older than %s days deleted" % numDaysAutoDelete)
+        print("All backups older than %s days or outside of specified arguments deleted" %
+              numDaysAutoDelete)
 
 # display GUI if selected
 if showGUI == "True":
@@ -188,16 +205,16 @@ if showGUI == "True":
     if hasBackedUp:
         if hasDeleted:
             tk.messagebox.showinfo(
-                "Success", "Minecraft backup complete\nAll Minecraft backups older than %s days deleted" % numDaysAutoDelete)
+                "Success", "Minecraft backup complete\nAll Minecraft backups older than %s days or outside of specified arguments deleted" % numDaysAutoDelete)
         else:
             tk.messagebox.showinfo(
-                "Success", "Minecraft backup complete\nNo Minecraft backups older than %s days to delete" % numDaysAutoDelete)
+                "Success", "Minecraft backup complete\nNo Minecraft backups older than %s days or outside of specified arguments to delete" % numDaysAutoDelete)
     else:
         if hasDeleted:
             tk.messagebox.showinfo(
-                "Success", "No Minecraft backups to create\nAll Minecraft backups older than %s days deleted" % numDaysAutoDelete)
+                "Success", "No Minecraft backups to create\nAll Minecraft backups older than %s days or outside of specified arguments deleted" % numDaysAutoDelete)
         else:
             tk.messagebox.showinfo(
-                "Success", "No Minecraft backups to create\nNo Minecraft backups older than %s days to delete" % numDaysAutoDelete)
+                "Success", "No Minecraft backups to create\nNo Minecraft backups older than %s days or outside of specified arguments to delete" % numDaysAutoDelete)
 
 print("Done!")

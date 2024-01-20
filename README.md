@@ -59,10 +59,13 @@ Root (user-specified)
         |-> resourcepacks
             |-> {backup date}
                 |-> copied content of mcDir\resourcepacks
+        |-> server-list
+            |-> {backup date}
+                |-> copied file from mcDir\servers.dat
 
-#### Lines 3 through 8
+#### Lines 3 through 9
 
-Assuming the file is zero-indexed, lines 3 inclusive through 8 inclusive should each either be <code>True</code> or <code>False</code>, depending on which data the user wants to have backed up. Lines 3 through 8 are in the following order:
+Assuming the file is zero-indexed, lines 3 inclusive through 9 inclusive should each either be <code>True</code> or <code>False</code>, depending on which data the user wants to have backed up. Lines 3 through 9 are in the following order:
 
 backupSaves
 backupMods
@@ -70,14 +73,15 @@ backupSchems
 backupScreenshots
 backupLogs
 backupResourcePacks
+backupServerList
 
 #### deleteOldBackups
 
-Like with lines 3 through 8, this should be either <code>True</code> or <code>False</code>. This option determines whether or not to delete old backups. Backups older than x days, where x is specified in numDaysForDeletion, will be deleted automatically if this option is set to <code>True</code>.
+Like with lines 3 through 9, this should be either <code>True</code> or <code>False</code>. This option determines whether or not to delete old backups. Backups older than x days, where x is specified in numDaysForDeletion, will be deleted automatically if this option is set to <code>True</code>.
 
 #### tkinter
 
-Like with lines 3 through 8, this should be either <code>True</code> or <code>False</code>. This option determines whether or not the program will display a tkinter system dialog box upon completion.
+Like with lines 3 through 9, this should be either <code>True</code> or <code>False</code>. This option determines whether or not the program will display a tkinter system dialog box upon completion.
 
 #### numDaysForDeletion
 
